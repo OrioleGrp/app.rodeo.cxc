@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { useRouter } from "next/navigation";
 import {
   Table,
   TableBody,
@@ -19,6 +20,7 @@ interface TeamMembersTableProps {
 }
 
 export function TeamMembersTable({ profiles }: TeamMembersTableProps) {
+  const router = useRouter();
   const [sortColumn, setSortColumn] = useState<SortColumn>(null);
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
 
@@ -126,7 +128,11 @@ export function TeamMembersTable({ profiles }: TeamMembersTableProps) {
         </TableHeader>
         <TableBody>
           {sortedProfiles.map((profile) => (
-            <TableRow key={profile.id}>
+            <TableRow
+              key={profile.id}
+              className="cursor-pointer hover:bg-gray-50"
+              onClick={() => router.push(`/profile/${profile.id}`)}
+            >
               <TableCell>{profile.title || "-"}</TableCell>
               <TableCell>{profile.first_name || "-"}</TableCell>
               <TableCell>{profile.last_name || "-"}</TableCell>
